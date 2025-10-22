@@ -1,0 +1,743 @@
+{
+  "name": "FB Analyzer",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e33bbd9a-3682-4ef3-98c0-c871eb91fab3",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -320,
+        -48
+      ],
+      "id": "3c71d5a4-12f9-4013-a4bb-2dc625ccb27a",
+      "name": "Webhook",
+      "webhookId": "e33bbd9a-3682-4ef3-98c0-c871eb91fab3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e079528e-75ac-4ea8-96b8-96ccdc1c5fb0",
+              "name": "=timestamp",
+              "value": "={{ $json.body.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "ab5cf046-3100-487e-8270-33195918cd47",
+              "name": "=body.patient_id",
+              "value": "={{ $json.body.patient_id }}",
+              "type": "string"
+            },
+            {
+              "id": "e784bcaa-18df-4b8b-a5ab-fa19c79ecda8",
+              "name": "=source",
+              "value": "={{ $json.body.source }}",
+              "type": "string"
+            },
+            {
+              "id": "cf0b0a5c-a218-44f8-81bb-58f3d36ace1d",
+              "name": "text",
+              "value": "={{ $json.body.text }}",
+              "type": "string"
+            },
+            {
+              "id": "67b96296-3a83-4007-b574-9f6ce061469c",
+              "name": "language",
+              "value": "={{ $json.body.language }}",
+              "type": "string"
+            },
+            {
+              "id": "e5e47424-958e-4493-b4a8-bd2847993eda",
+              "name": "topics",
+              "value": "={{ $json.body.topics }}",
+              "type": "string"
+            },
+            {
+              "id": "1c6ec316-fb35-45d6-a837-c4404cf17a62",
+              "name": "escalated",
+              "value": "={{ $json.body.escalated }}",
+              "type": "string"
+            },
+            {
+              "id": "c0a69e27-c9c1-4016-9c18-806d1915c79d",
+              "name": "gmail",
+              "value": "={{ $json.body.gmail }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -112,
+        -48
+      ],
+      "id": "96a8833d-5196-467f-9ca6-937c515024de",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.sentimentAnalysis",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        -48
+      ],
+      "id": "a939726b-dab0-4257-9f82-2fda6b424db5",
+      "name": "Sentiment Analysis"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "gpt-3.5-turbo"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        32,
+        160
+      ],
+      "id": "1e414ccf-bccb-4785-a09c-63131f5a5905",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "wvH8oFz1Gevk4El7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "354fa908-37c6-441f-bbfb-a66d73b2b137",
+              "name": "=timestamp",
+              "value": "={{ $json.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "79267eca-361a-40a0-bd23-aa39af8824b6",
+              "name": "=pt_id",
+              "value": "={{ $json.body.patient_id }}",
+              "type": "string"
+            },
+            {
+              "id": "d590b1e3-dcc7-4b82-b330-7fd17c46f0a6",
+              "name": "=source",
+              "value": "={{ $json.source }}",
+              "type": "string"
+            },
+            {
+              "id": "4192e258-fddd-4bbb-9c39-bc9bdd5066d6",
+              "name": "=text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "bf16c241-b842-408a-8924-531aa745ed90",
+              "name": "=language",
+              "value": "={{ $json.language }}",
+              "type": "string"
+            },
+            {
+              "id": "5174db13-acf9-4876-808a-145a9d0701b9",
+              "name": "=topics",
+              "value": "={{ $json.topics }}",
+              "type": "string"
+            },
+            {
+              "id": "2393170f-bdea-452a-8aa3-218953237455",
+              "name": "=escalated",
+              "value": "={{ $json.escalated }}",
+              "type": "string"
+            },
+            {
+              "id": "23ad2284-d89b-4c83-b475-a55f07816ec9",
+              "name": "=gmail",
+              "value": "={{ $json.gmail }}",
+              "type": "string"
+            },
+            {
+              "id": "f2121089-6fe3-4c9b-b511-8d511bbb441f",
+              "name": "=sentimentAnalysis",
+              "value": "={{ $json.sentimentAnalysis }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        -464
+      ],
+      "id": "e0aac04c-c4d3-423b-8672-b7bf683c1cb8",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a professional communication assistant for an eye clinic. \nA patient has shared a positive feedback:{{ $json.text }}\n\nWrite a warm thank-you email expressing gratitude for their kind words. \nKeep it professional, sincere, and encouraging. \nOptionally, include one line showing the clinic’s commitment to continued care and excellence. \nLimit to 3 to 5 lines.\n"
+            },
+            {
+              "content": "return all other parameters like timestamp, pt_id,source, etc back"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        544,
+        -336
+      ],
+      "id": "62d9e009-af71-41ca-b09b-6b8568f2281e",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "wvH8oFz1Gevk4El7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        832,
+        -448
+      ],
+      "id": "44c3cb2a-e953-4952-97d8-8184d467947d",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.gmail }}",
+        "subject": "Feedback",
+        "message": "={{ $json.message.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1072,
+        -448
+      ],
+      "id": "a404affc-ae56-4d2b-b80b-b02bf400bfb9",
+      "name": "Send a message",
+      "webhookId": "1cdc8593-8e8b-4435-9763-39776666c2bc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "nfIMhxS6tYkVMExg",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2bf97671-7907-4322-9e21-2e97d126e88c",
+              "name": "=timestamp",
+              "value": "={{ $json.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "7aa6981c-1d1a-45cf-b2d1-6ad574519d4f",
+              "name": "=patient_id",
+              "value": "={{ $json.body.patient_id }}",
+              "type": "string"
+            },
+            {
+              "id": "e2ef4f50-9e06-449c-beb1-42ad6c32a884",
+              "name": "=source",
+              "value": "={{ $json.source }}",
+              "type": "string"
+            },
+            {
+              "id": "344c282f-0090-47e3-9893-3ef5257b5470",
+              "name": "text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "dd51db21-1ddf-4fa2-859e-27a96665fe86",
+              "name": "language",
+              "value": "={{ $json.language }}",
+              "type": "string"
+            },
+            {
+              "id": "ba7553bb-3f9f-461c-9d2a-2dd2f14f1a08",
+              "name": "topics",
+              "value": "={{ $json.topics }}",
+              "type": "string"
+            },
+            {
+              "id": "b3f1a02f-de9e-46c7-8323-3db568b194b2",
+              "name": "escalated",
+              "value": "={{ $json.escalated }}",
+              "type": "string"
+            },
+            {
+              "id": "a501e9f2-b2b7-415d-9b16-4b6d5a453a8d",
+              "name": "gmail",
+              "value": "={{ $json.gmail }}",
+              "type": "string"
+            },
+            {
+              "id": "fba7e1a8-bfde-48b0-a97b-205d361f83d5",
+              "name": "sentimentAnalysis",
+              "value": "={{ $json.sentimentAnalysis }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        -192
+      ],
+      "id": "cde0c83c-2a6b-45ab-97ca-810603b5023a",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a patient communication assistant for an eye clinic. \nA patient has shared a neutral feedback:  {{ $json.text }}\n\nWrite a polite and professional thank-you email. \nAcknowledge their feedback and gently ask if they can suggest one way the clinic could improve their experience. \nKeep it friendly, respectful, and short (3 to 5 lines).\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        560,
+        -96
+      ],
+      "id": "ec46f52b-6e11-4b3d-b5dc-db53458888b9",
+      "name": "Message a model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "wvH8oFz1Gevk4El7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        880,
+        -176
+      ],
+      "id": "7909a698-27c1-49a0-b657-e8b562d0c6ce",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.gmail }}",
+        "subject": "feedback",
+        "message": "={{ $json.message.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1088,
+        -176
+      ],
+      "id": "c41eed56-01e0-4fc2-8f84-7b98ec0cbc77",
+      "name": "Send a message1",
+      "webhookId": "f5c9cb4d-8b4b-4a53-b1ee-24efeb80e5d9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "nfIMhxS6tYkVMExg",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0ba53d28-622a-4582-89e4-25cec2106ad1",
+              "name": "=timestamp",
+              "value": "={{ $json.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "86ea4f2a-ab1b-499a-9130-e1d7dbdb417f",
+              "name": "=patient_id",
+              "value": "={{ $json.body.patient_id }}",
+              "type": "string"
+            },
+            {
+              "id": "53ba1274-df73-44a3-af09-c409e12ea749",
+              "name": "=source",
+              "value": "={{ $json.source }}",
+              "type": "string"
+            },
+            {
+              "id": "851382cf-898d-4b7c-8134-dc4d12b7f646",
+              "name": "=text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "762c3f6c-afc9-4d6d-bdf6-9325f55e3894",
+              "name": "=language",
+              "value": "={{ $json.language }}",
+              "type": "string"
+            },
+            {
+              "id": "fa17eefc-291b-45a4-b006-80f02c04ad93",
+              "name": "=topics",
+              "value": "={{ $json.topics }}",
+              "type": "string"
+            },
+            {
+              "id": "c472eac5-eef7-497a-be42-dde3ddc3949a",
+              "name": "=escalated",
+              "value": "={{ $json.escalated }}",
+              "type": "string"
+            },
+            {
+              "id": "d56c3512-b517-45a3-a63e-694ff2bc8215",
+              "name": "=gmail",
+              "value": "={{ $json.gmail }}",
+              "type": "string"
+            },
+            {
+              "id": "e749d7ab-3659-44cb-a059-f0439879a955",
+              "name": "=sentimentAnalysis",
+              "value": "={{ $json.sentimentAnalysis.category }}",
+              "type": "string"
+            },
+            {
+              "id": "098252c5-3c50-47c4-9aa9-0f519098a7d3",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        80
+      ],
+      "id": "2647cefe-87f0-4fb2-bbac-3ceac10fd73b",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a professional patient relations assistant for an eye clinic. \nA patient has shared a negative feedback:\n{{ $json.text }}\nWrite a polite and empathetic email in professional English, apologizing for the patient’s experience. \nAcknowledge the concern clearly, express regret, and reassure the patient that the issue will be addressed. \nEnd the message warmly, thanking them for helping improve the clinic’s services. \nKeep the tone caring and concise (around 4 to 6 lines)."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        560,
+        208
+      ],
+      "id": "8663bf7f-3a82-4846-bfc1-18f4fd2eab7d",
+      "name": "Message a model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "wvH8oFz1Gevk4El7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        928,
+        64
+      ],
+      "id": "207b41b3-a3f4-457d-b3b1-8aa75947104a",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.gmail }}",
+        "subject": "Feedback",
+        "message": "={{ $json.message.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1136,
+        64
+      ],
+      "id": "8df0118d-a3b8-4601-a6d9-a545f244475c",
+      "name": "Send a message2",
+      "webhookId": "f7613577-59f8-47bb-a190-cb46053b09bb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "nfIMhxS6tYkVMExg",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Sentiment Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sentiment Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentiment Analysis": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message a model2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model2": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9df119fe-65d8-4d10-9093-4ee65889dff0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "25f768bf5d31b2a25889728a7055a03b60253bb1eab52642af46938da66baddd"
+  },
+  "id": "g2h9Dd0BJlF7Kzbh",
+  "tags": []
+}
